@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    
+    <Button
+        android:id="@+id/btn_dele_pics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="deleAllPics"
+        android:text="删除所有拍照" />
+    <Button
+        android:layout_below="@id/btn_dele_pics"
+        android:id="@+id/btn_gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="goGallery"
+        android:text="调用系统图库" />
+
+    <Button
+        android:id="@+id/btn_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_gallery"
+        android:onClick="goCapture"
+        android:text="调用相机拍照" />
+
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_alignLeft="@+id/btn_camera"
+        android:layout_below="@+id/btn_camera" />
+
+</RelativeLayout>
