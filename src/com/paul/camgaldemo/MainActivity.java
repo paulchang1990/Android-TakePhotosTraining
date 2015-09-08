@@ -19,8 +19,13 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+/**
+ * use system camera and gallery create and retrieve a photo.
+ * refer to:<a href='http://developer.android.com/intl/zh-cn/training/camera/photobasics.html#TaskPhotoView'>android training for take photo</a>
+ * @author Paul Chang
+ *
+ */
 public class MainActivity extends Activity {
 
 	private static final int REQUEST_GALLERY = 1;
