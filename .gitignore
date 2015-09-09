@@ -24,3 +24,5 @@ bin/res/drawable-xxhdpi/ic_launcher.png
 bin/jarlist.cache
 bin/res/drawable-xhdpi/ic_launcher.png
 bin/resources.ap_
+/bin
+/gen

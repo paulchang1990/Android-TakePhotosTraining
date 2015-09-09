@@ -3,6 +3,10 @@
 
     <string name="app_name">CamGalDemo</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="retri_photo_gallery">进入图库选择图片</string>
+    <string name="retri_photo_gallery_desc">显示选取的图片的ImageView</string>
+    <string name="gallery_demo">系统图库示例</string>
+    <string name="take_camera_photo">系统相机进行拍照</string>
+    <string name="system_camera_demo">系统相机示例</string>
 
 </resources>

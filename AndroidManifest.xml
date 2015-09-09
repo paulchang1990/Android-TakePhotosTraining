@@ -26,6 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.paul.camgaldemo.RetriPhotoActivity"></activity>
+        <activity android:name="com.paul.camgaldemo.CameraPhotoActivity"></activity>
     </application>
 
 </manifest>
