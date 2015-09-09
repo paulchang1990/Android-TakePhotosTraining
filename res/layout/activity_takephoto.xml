@@ -16,10 +16,16 @@
         android:contentDescription="@string/retri_photo_gallery_desc" />
 
     <Button
-        android:id="@+id/btn_open_camera"
+        android:id="@+id/btn_capture"
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/take_camera_photo" />
+        android:text="@string/capture" />
+    <Button
+        android:id="@+id/btn_capture_file_specify"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/specify_dir_capture" />
 
 </LinearLayout>
