@@ -5,13 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -166,5 +167,22 @@ public class CommonUtil {
 			return -1;
 		}
 		return bitmap.getRowBytes() * bitmap.getHeight();
+	}
+	
+	/**
+	 * 通过provider的Uri来查询获取到文件路径.
+	 * 
+	 * @param uri
+	 * @return 文件路径
+	 */
+	public static String getImagePathFromUri(Context context,Uri uri) {
+		String filePath = null;
+		String[] projection = new String[]{MediaStore.Images.ImageColumns.DATA};
+		Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+		if (cursor != null && cursor.moveToFirst()) {
+			filePath = cursor.getString(0);
+			System.out.println(filePath);
+		}
+		return filePath;
 	}
 }

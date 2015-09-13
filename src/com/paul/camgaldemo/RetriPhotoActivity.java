@@ -1,10 +1,7 @@
 package com.paul.camgaldemo;
 
-import com.paul.camgaldemo.utils.CommonUtil;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -13,6 +10,8 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+
+import com.paul.camgaldemo.utils.CommonUtil;
 
 /**
  * 从相册中获取图片显示在ImageView中. 步骤如下： <li>进入系统相册Gallery</li> <li>选取需要设置的图片</li> <li>
@@ -43,36 +42,18 @@ public class RetriPhotoActivity extends Activity implements OnClickListener {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_GALLERY && resultCode == Activity.RESULT_OK) {
 			Uri uri = data.getData();
-			String imagePath = getImagePathFromUri(uri);
+			//1. 根据获得的图片路径可以使用IO流复制该图片文件到指定位置，此时获得一个大文件
+			String imagePath = CommonUtil.getImagePathFromUri(this,uri);
 			if (DEBUG) {
+				//用于对比scale前后的大小调试代码
 				Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-				System.out.println("imagePath="
-						+ imagePath);
+				System.out.println("imagePath=" + imagePath);
 				System.out.println("byteCount="
 						+ CommonUtil.getByteCount(bitmap));
 			}
+			//可以将路径下的文件进行scale后获得一个小的Bitmap加载到内存中，然后进行持久化储存，此时会获得一个小文件
 			CommonUtil.setPicToImageView(mImageView, imagePath);
 		}
-	}
-
-	/**
-	 * 通过provider的Uri来查询获取到文件路径.
-	 * @param uri
-	 * @return
-	 */
-	private String getImagePathFromUri(Uri uri) {
-		String filePath = null;
-		Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-		if(DEBUG){
-			CommonUtil.queryCursor(cursor);
-		}
-		if (cursor.moveToNext()) {
-			filePath = cursor.getString(cursor
-					.getColumnIndex(MediaStore.Images.ImageColumns.DATA));
-			System.out.println(filePath);
-		}
-
-		return filePath;
 	}
 
 	@Override

@@ -54,6 +54,8 @@ public class CameraPhotoActivity extends Activity implements OnClickListener {
 			Bitmap imageBitmap = null;
 			if (DEBUG) {
 				System.out.println(uri);
+				String imagePath = CommonUtil.getImagePathFromUri(this, uri);
+				System.out.println("imagePath="+imagePath);
 				imageBitmap = (Bitmap) extras.get("data");
 				System.out.println("byteCount="
 						+ CommonUtil.getByteCount(imageBitmap));
