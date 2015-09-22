@@ -3,50 +3,60 @@ refer to this link---[Google Training](http://developer.android.com/intl/zh-cn/t
 ##Two parts:
 * Retrieve a photo from system gallery
 * Take a photo from system camera and save this photo as a File
+
 ###Part-1:Retrieve a photo from system gallery
+
 step1:开启Gallery
-
-    Intent intent = new Intent(Intent.ACTION_PIC,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-	if (cameraIntent.resolveActivity(getPackageManager()) != null) {//intent是否合法，避免异常
-    	startActivityForResult(intent, REQUEST_GALLERY);
-	｝
+```java
+  Intent intent = new Intent(Intent.ACTION_PIC,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+  if (cameraIntent.resolveActivity(getPackageManager()) != null) {//intent是否合法，避免异常
+  	startActivityForResult(intent, REQUEST_GALLERY);
+  ｝
+```
 step2:在onActivityResult方法中获得返回值
-
-	Uri uri = data.getData();//获得如content://media/external/images/media/327格式的uri值，通过ContentProvider可以进行查询。对应的数据在/data/data/com.android.providers.media/databases/external.db的files表中，根据对应的列名即可获得想要的数据进行相应的处理
+```java
+  Uri uri = data.getData();//获得如content://media/external/images/media/327格式的uri值，通过ContentProvider可以进行查询。对应的数据在/data/data/com.android.providers.media/databases/external.db的files表中，根据对应的列名即可获得想要的数据进行相应的处理
+```
 ##
 ###Part-2:Take a photo from sytsem camera
 ####方法1. 拍照完成后无需处理会自动添加到Gallery中
+
 step1:开启系统相机，且拍照后的图片信息会保存到上述media数据库中
-
-    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-	if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-		startActivityForResult(cameraIntent, REQUEST_CAMERA);
-	}
+```java
+  Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+  if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+      startActivityForResult(cameraIntent, REQUEST_CAMERA);
+  }
+```
 step2:在onActivityResult方法中获得返回值
-
-	Bundle extras = data.getExtras;
-	Bitmap imageBitmap = (Bitmap) extras.get("data");//获得一个占用内存很小的bitmap对象
-	//或
-	Uri uri = data.getData();//类似从Gallery获得的数据
-	//可以根据需求选择其中的一个或者两个进行处理
+```java
+  Bundle extras = data.getExtras;
+  Bitmap imageBitmap = (Bitmap) extras.get("data");//获得一个占用内存很小的bitmap对象
+  //或
+  Uri uri = data.getData();//类似从Gallery获得的数据
+  //可以根据需求选择其中的一个或者两个进行处理
+ ```
 ####方法2. 拍照时指定需要保存的路径，然后通过发送一个广播让系统将该图片添加到Gallery中
+
 step1:指定照片的储存路径，开启相机
-	
-	Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-	if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-		cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(photoFile));
-		startActivityForResult(cameraIntent, REQUEST_CAMERA_SAVE_FILE);
-	}
+```java
+  Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+  if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+  	cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(photoFile));
+	startActivityForResult(cameraIntent, REQUEST_CAMERA_SAVE_FILE);
+  }
+```
 step2:在onActivityResult方法中将该图片添加到Gallery中
-
-	Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-	Uri contentUri = Uri.fromFile(photoFile);
-	mediaScanIntent.setData(contentUri);
-	this.sendBroadcast(mediaScanIntent);
-
+```java
+  Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+  Uri contentUri = Uri.fromFile(photoFile);
+  mediaScanIntent.setData(contentUri);
+  this.sendBroadcast(mediaScanIntent);
+```
 
 ##Extra parts:
 ###Part-1:创建一个文件名不重复的.jpg文件
+```java
 	public static File createImageFile() throws Exception{
 		// Create an image file name
 	    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -67,8 +77,9 @@ step2:在onActivityResult方法中将该图片添加到Gallery中
 	    // Save a file: path for use with ACTION_VIEW intents
 	    return image;
 	}
-
+```
 ###Part-2:根据View的长宽来调整要读取Bitmap加载到内存大小，防止OOM
+```java
     	public static Bitmap resizeBitmap(String imagePath,int width,int height){
 		BitmapFactory.Options opts = new Options();
 
@@ -93,3 +104,4 @@ step2:在onActivityResult方法中将该图片添加到Gallery中
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath, opts);
 		return bitmap;
 	}
+```
