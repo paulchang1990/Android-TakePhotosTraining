@@ -176,12 +176,14 @@ public class CommonUtil {
 	 * @return 文件路径
 	 */
 	public static String getImagePathFromUri(Context context,Uri uri) {
+		System.out.println("uri="+uri);
 		String filePath = null;
 		String[] projection = new String[]{MediaStore.Images.ImageColumns.DATA};
 		Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
 		if (cursor != null && cursor.moveToFirst()) {
 			filePath = cursor.getString(0);
 			System.out.println(filePath);
+			cursor.close();
 		}
 		return filePath;
 	}
